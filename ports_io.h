@@ -1,7 +1,8 @@
 
+#include "constants.h"
 
-#ifndef PORTS_IO
-#define PORTS_IO
+#ifndef PORTS_IO_H
+#define PORTS_IO_H
 
 void initPortsIO();
 

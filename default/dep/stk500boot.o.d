@@ -20,7 +20,8 @@ stk500boot.o: ../stk500boot.c \
  c:\programmi\atmel\avr\ tools\avr\ toolchain\bin\../lib/gcc/avr/4.5.1/../../../../avr/include/util/delay.h \
  c:\programmi\atmel\avr\ tools\avr\ toolchain\bin\../lib/gcc/avr/4.5.1/../../../../avr/include/util/delay_basic.h \
  c:\programmi\atmel\avr\ tools\avr\ toolchain\bin\../lib/gcc/avr/4.5.1/../../../../avr/include/stdlib.h \
- ../command.h ../ports_io.h \
+ ../command.h ../ports_io.h ../constants.h \
+ c:\programmi\atmel\avr\ tools\avr\ toolchain\bin\../lib/gcc/avr/4.5.1/../../../../avr/include/avr\io.h \
  c:\programmi\atmel\avr\ tools\avr\ toolchain\bin\../lib/gcc/avr/4.5.1/../../../../avr/include/math.h \
  ../avrinterruptnames.h
 
@@ -69,6 +70,10 @@ c:\programmi\atmel\avr\ tools\avr\ toolchain\bin\../lib/gcc/avr/4.5.1/../../../.
 ../command.h:
 
 ../ports_io.h:
+
+../constants.h:
+
+c:\programmi\atmel\avr\ tools\avr\ toolchain\bin\../lib/gcc/avr/4.5.1/../../../../avr/include/avr\io.h:
 
 c:\programmi\atmel\avr\ tools\avr\ toolchain\bin\../lib/gcc/avr/4.5.1/../../../../avr/include/math.h:
 

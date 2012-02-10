@@ -565,12 +565,12 @@ LOAD c:/programmi/atmel/avr tools/avr toolchain/bin/../lib/gcc/avr/4.5.1/avr6\li
  .debug_frame   0x00000000       0xf0 stk500boot.o
  .debug_frame   0x000000f0       0x20 ports_io.o
 
-.debug_str      0x00000000      0xc6b
+.debug_str      0x00000000      0xc76
  *(.debug_str)
- .debug_str     0x00000000      0xc51 stk500boot.o
-                                0xc9b (size before relaxing)
- .debug_str     0x00000c51       0x1a ports_io.o
-                                 0xcc (size before relaxing)
+ .debug_str     0x00000000      0xc5c stk500boot.o
+                                0xca6 (size before relaxing)
+ .debug_str     0x00000c5c       0x1a ports_io.o
+                                 0xd7 (size before relaxing)
 
 .debug_loc      0x00000000     0x147b
  *(.debug_loc)

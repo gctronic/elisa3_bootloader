@@ -25,13 +25,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
  10 .debug_frame  00000110  00000000  00000000  00006bf0  2**2
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_str    00000c6b  00000000  00000000  00006d00  2**0
+ 11 .debug_str    00000c76  00000000  00000000  00006d00  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_loc    0000147b  00000000  00000000  0000796b  2**0
+ 12 .debug_loc    0000147b  00000000  00000000  00007976  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_pubtypes 00000072  00000000  00000000  00008de6  2**0
+ 13 .debug_pubtypes 00000072  00000000  00000000  00008df1  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_ranges 000000c0  00000000  00000000  00008e58  2**0
+ 14 .debug_ranges 000000c0  00000000  00000000  00008e63  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -140,7 +140,7 @@ Disassembly of section .text:
    3e1b1:	4c 6f 63 6b 20 66 75 73 65 20 20 20 20 3d 20 00     Lock fuse    = .
 
 0003e1c1 <gTextMsg_GCC_DATE_STR>:
-   3e1c1:	4a 61 6e 20 31 37 20 32 30 31 32 00                 Jan 17 2012.
+   3e1c1:	46 65 62 20 20 37 20 32 30 31 32 00                 Feb  7 2012.
 
 0003e1cd <gTextMsg_AVR_LIBC_VER_STR>:
    3e1cd:	31 2e 37 2e 31 00                                   1.7.1.
@@ -4623,6 +4623,7 @@ int main(void)
 
 0003fa7c <initPortsIO>:
 #include <avr\io.h>
+#include "ports_io.h"
 
 void initPortsIO(void) {
 
@@ -4636,28 +4637,27 @@ void initPortsIO(void) {
    3fa82:	97 ef       	ldi	r25, 0xF7	; 247
    3fa84:	94 b9       	out	0x04, r25	; 4
 	PORTB = 0xE0;
-   3fa86:	90 ee       	ldi	r25, 0xE0	; 224
-   3fa88:	95 b9       	out	0x05, r25	; 5
+   3fa86:	20 ee       	ldi	r18, 0xE0	; 224
+   3fa88:	25 b9       	out	0x05, r18	; 5
 	//PORTB |= (1 << 5) | (1 << 6) | (1 << 7); // leds off	
 	//PORTB &= ~(1 << 5) & ~(1 << 6) & ~(1 << 7); // leds off
 	//PORTB &= ~(1 << 7);
 
 	DDRC = 0xF0;	// selector as input; IR leds as output; sens-enable, sleep as output
-   3fa8a:	90 ef       	ldi	r25, 0xF0	; 240
-   3fa8c:	97 b9       	out	0x07, r25	; 7
+   3fa8a:	20 ef       	ldi	r18, 0xF0	; 240
+   3fa8c:	27 b9       	out	0x07, r18	; 7
 	PORTC = 0xB0;	// sleep = 1, IR leds = 1
-   3fa8e:	90 eb       	ldi	r25, 0xB0	; 176
-   3fa90:	98 b9       	out	0x08, r25	; 8
+   3fa8e:	20 eb       	ldi	r18, 0xB0	; 176
+   3fa90:	28 b9       	out	0x08, r18	; 8
 
 	DDRD = 0xFC;	// all pins to output; when usart and i2c peripherals are activated they change the pins direction accordingly
-   3fa92:	9c ef       	ldi	r25, 0xFC	; 252
-   3fa94:	9a b9       	out	0x0a, r25	; 10
+   3fa92:	2c ef       	ldi	r18, 0xFC	; 252
+   3fa94:	2a b9       	out	0x0a, r18	; 10
 	PORTD = 0x03;	// default for unused pins is 0
-   3fa96:	93 e0       	ldi	r25, 0x03	; 3
-   3fa98:	9b b9       	out	0x0b, r25	; 11
+   3fa96:	23 e0       	ldi	r18, 0x03	; 3
+   3fa98:	2b b9       	out	0x0b, r18	; 11
 
-	//DDRE = 0x18;	// pwm and dir for motor right as output; when usart is activated it changes the pins direction accordingly
-	DDRE = 0xFF;	// all pins to output
+	DDRE = 0xFF;	// all pins to output (pwm and dir for motor right as output; when usart is activated it changes the pins direction accordingly)
    3fa9a:	8d b9       	out	0x0d, r24	; 13
 	PORTE = 0x00;	// default for unused pins is 0; pwm for motors set to 0 when stopped
    3fa9c:	1e b8       	out	0x0e, r1	; 14
@@ -4667,33 +4667,47 @@ void initPortsIO(void) {
 
 	DDRG = 0xFF;	// unused pins as output
    3faa0:	83 bb       	out	0x13, r24	; 19
-	PORTG = 0x00;	// default for unused pins is 0
-   3faa2:	14 ba       	out	0x14, r1	; 20
-	
-	//DDRH = 0x58;	// pwm and dir for motor left as output; when usart is activated it changes the pins direction accordingly
-	DDRH = 0xFF;	// all pins to output
-   3faa4:	80 93 01 01 	sts	0x0101, r24
-	PORTH = 0x00;	// default for unused pins is 0; pwm for motors set to 0 when stopped
-   3faa8:	10 92 02 01 	sts	0x0102, r1
+	#endif
+	#ifdef HW_REV_3_0_1
+		PORTG = 0x00;	// default for unused pins is 0
+	#endif
+	#ifdef HW_REV_3_1
+		PORTG = 0x08;	// default for unused pins is 0, led3 to 1
+   3faa2:	28 e0       	ldi	r18, 0x08	; 8
+   3faa4:	24 bb       	out	0x14, r18	; 20
+	#endif	
 
-	DDRJ = 0x8F;	// cliff pulses as output; charge-on, button0, remote as input; unused as output
-   3faac:	9f e8       	ldi	r25, 0x8F	; 143
-   3faae:	90 93 04 01 	sts	0x0104, r25
-	// for hardware revision 3.0
-	//PORTJ = 0x00;	// cliff pulse turned off
-	// for hardware rvision >= 3.0.1
-	PORTJ = 0x0F;
-   3fab2:	9f e0       	ldi	r25, 0x0F	; 15
-   3fab4:	90 93 05 01 	sts	0x0105, r25
+	DDRH = 0xFF;	// all pins to output; when usart is activated it changes the pins direction accordingly
+   3faa6:	80 93 01 01 	sts	0x0101, r24
+	PORTH = 0x00;	// default for unused pins is 0; pwm for motors set to 0 when stopped
+   3faaa:	10 92 02 01 	sts	0x0102, r1
+
+	DDRJ = 0x0F;	// cliff pulses as output; charge-on, button0, remote, charge status as input
+   3faae:	2f e0       	ldi	r18, 0x0F	; 15
+   3fab0:	20 93 04 01 	sts	0x0104, r18
+	#ifdef HW_REV_3_0_1
+		PORTJ = 0x0F;
+		//#warning "Inverse logic for ground sensors (hw rev 3.0.1)"
+	#endif
+	#ifdef HW_REV_3_1
+		PORTJ = 0x0F;
+   3fab4:	20 93 05 01 	sts	0x0105, r18
+		//#warning "Inverse logic for ground sensors (hw rev 3.1)"
+	#endif	
 
 	DDRK = 0x00;	// adc channel pins as input
    3fab8:	10 92 07 01 	sts	0x0107, r1
 
 	DDRL = 0xFF;	// all pins to output
    3fabc:	80 93 0a 01 	sts	0x010A, r24
-	PORTL = 0x00;	// pwm (unused) and unused pins to 0
-   3fac0:	10 92 0b 01 	sts	0x010B, r1
-
+	#endif
+	#ifdef HW_REV_3_0_1	
+		PORTL = 0x00;	// pwm (unused) and unused pins to 0
+	#endif
+	#ifdef HW_REV_3_1
+		PORTL = 0xF7;	// pwm (unused) to 0, leds to 1
+   3fac0:	90 93 0b 01 	sts	0x010B, r25
+	#endif
 		
 }
    3fac4:	08 95       	ret
