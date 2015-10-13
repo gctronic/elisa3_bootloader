@@ -447,6 +447,14 @@ int main(void)
 	unsigned int	exPointCntr	=	0;
 #endif
 
+	unsigned char currentOsccal = eeprom_read_byte((uint8_t*)4093);
+	if(currentOsccal!=0 && currentOsccal!=255) { // clear memory
+		OSCCAL = currentOsccal;
+	} else {
+		currentOsccal = OSCCAL;
+		eeprom_write_byte((uint8_t*) 4093, currentOsccal);
+	}
+
 
 	boot_timer	=	0;
 	boot_state	=	0;
