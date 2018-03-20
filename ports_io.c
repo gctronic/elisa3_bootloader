@@ -15,11 +15,11 @@ void initPortsIO(void) {
 	DDRC = 0xF0;	// selector as input; IR leds as output; sens-enable, sleep as output
 	PORTC = 0xB0;	// sleep = 1, IR leds = 1
 
-	DDRD = 0xFC;	// all pins to output; when usart and i2c peripherals are activated they change the pins direction accordingly
-	PORTD = 0x03;	// default for unused pins is 0
+	DDRD = 0xF0;	// all pins to output; when usart and i2c peripherals are activated they change the pins direction accordingly
+	PORTD = 0x0F;	// default for unused pins is 0
 
 	DDRE = 0xFF;	// all pins to output (pwm and dir for motor right as output; when usart is activated it changes the pins direction accordingly)
-	PORTE = 0x00;	// default for unused pins is 0; pwm for motors set to 0 when stopped
+	PORTE = 0x03;	// default for unused pins is 0; pwm for motors set to 0 when stopped
 
 	DDRF = 0x00;	// adc channel pins as input		
 
